@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWeather } from '../actions/index';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
 
@@ -19,6 +19,9 @@ export default class SearchBar extends Component {
   }
   onFormSubmit = (event) => {
     event.preventDefault();
+
+    this.props.fetchWeather(this.state.term);
+    this.setState({term:''});
 
 
   }
@@ -37,3 +40,11 @@ export default class SearchBar extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchWeather }, dispatch);
+
+}
+
+// null is used because, the function that returns an action creator is always second argument
+export default connect(null, mapDispatchToProps)(SearchBar);
